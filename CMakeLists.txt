@@ -564,8 +564,14 @@ if (NOT JANSSON_WITHOUT_TESTS)
 
    # Enable using "make check" just like the autotools project.
    # By default cmake creates a target "make test"
+   # Added a guard to allow for use with libraries that define check
+   if (TARGET check)
+   add_custom_target(janssoncheck COMMAND ${CMAKE_CTEST_COMMAND}
+                     DEPENDS json_process ${api_tests})
+   else()
    add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND}
                      DEPENDS json_process ${api_tests})
+   endif()
 endif ()
 
 #
